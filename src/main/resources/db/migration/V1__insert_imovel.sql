@@ -1,0 +1,2 @@
+INSERT INTO `imovel` (`id_imovel`,`apelido`,`cep`,`logradouro`,`numero`,`complemento`,`bairro`,`cidade`,`estado`,`pais`) VALUES (1,'Casa','01135020','Rua Conego Vicente Miguel Marino',179,'126B','Barra Funda','São Paulo','SP','Brasil');
+INSERT INTO `imovel` (`id_imovel`,`apelido`,`cep`,`logradouro`,`numero`,`complemento`,`bairro`,`cidade`,`estado`,`pais`) VALUES (2,'Pais','03701010','Avenida Gabriela Mistral',1153,'32B','Penha','São Paulo','SP','Brasil');

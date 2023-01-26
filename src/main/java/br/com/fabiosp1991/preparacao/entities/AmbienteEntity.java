@@ -1,6 +1,8 @@
-package br.com.fabiosp1991.preparacao.Entities;
+package br.com.fabiosp1991.preparacao.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -8,7 +10,7 @@ import java.util.Set;
 @Entity(name = AmbienteEntity.ENTITY_NAME)
 @Table(name = AmbienteEntity.TABLE_NAME)
 public class AmbienteEntity {
-    public static final String ENTITY_NAME = "Ambiente_Entity";
+    public static final String ENTITY_NAME = "Ambiente";
     public static final String TABLE_NAME = "ambiente";
     public static final String COLUMN_ID_NAME = "idAmbiente";
     public static final String COLUMN_DESCRICAOAMBIENTE_NAME = "descricaoAmbiente";
@@ -20,7 +22,9 @@ public class AmbienteEntity {
 
     private ImovelEntity idImovel;
 
-    private Set<ArmarioEntity> armarios = new LinkedHashSet<>();
+    private Set<CompartimentoEntity> compartimentoEntities = new LinkedHashSet<>();
+
+    private Set<ArmarioEntity> armarioEntities = new LinkedHashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +38,8 @@ public class AmbienteEntity {
         return this;
     }
 
+    @Size(max = 45)
+    @NotNull
     @Column(name = COLUMN_DESCRICAOAMBIENTE_NAME, nullable = false, length = 45)
     public String getDescricaoAmbiente() {
         return descricaoAmbiente;
@@ -44,6 +50,7 @@ public class AmbienteEntity {
         return this;
     }
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idImovel", nullable = false)
     public ImovelEntity getIdImovel() {
@@ -55,13 +62,23 @@ public class AmbienteEntity {
         return this;
     }
 
-    @OneToMany(mappedBy = "ambiente")
-    public Set<ArmarioEntity> getArmarios() {
-        return armarios;
+    @OneToMany(mappedBy = "idAmbiente")
+    public Set<CompartimentoEntity> getCompartimentos() {
+        return compartimentoEntities;
     }
 
-    public AmbienteEntity setArmarios(Set<ArmarioEntity> armarios) {
-        this.armarios = armarios;
+    public AmbienteEntity setCompartimentos(Set<CompartimentoEntity> compartimentoEntities) {
+        this.compartimentoEntities = compartimentoEntities;
+        return this;
+    }
+
+    @OneToMany(mappedBy = "ambiente")
+    public Set<ArmarioEntity> getArmarios() {
+        return armarioEntities;
+    }
+
+    public AmbienteEntity setArmarios(Set<ArmarioEntity> armarioEntities) {
+        this.armarioEntities = armarioEntities;
         return this;
     }
 

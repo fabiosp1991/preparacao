@@ -1,14 +1,20 @@
-package br.com.fabiosp1991.preparacao.Entities;
+package br.com.fabiosp1991.preparacao.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity(name = ImovelEntity.ENTITY_NAME)
-@Table(name = ImovelEntity.TABLE_NAME)
+@Table(name = ImovelEntity.TABLE_NAME, indexes = {
+        @Index(name = "idx_imovelentity_idimovel", columnList = "idImovel")
+})
 public class ImovelEntity {
-    public static final String ENTITY_NAME = "Imovel_Entity";
+    public static final String ENTITY_NAME = "Imovel";
     public static final String TABLE_NAME = "imovel";
     public static final String COLUMN_ID_NAME = "idImovel";
     public static final String COLUMN_CEP_NAME = "cep";
@@ -19,6 +25,7 @@ public class ImovelEntity {
     public static final String COLUMN_CIDADE_NAME = "cidade";
     public static final String COLUMN_ESTADO_NAME = "estado";
     public static final String COLUMN_PAIS_NAME = "pais";
+    public static final String COLUMN_APELIDO_NAME = "apelido";
 
 
     private Integer id;
@@ -39,7 +46,20 @@ public class ImovelEntity {
 
     private String pais;
 
-    private Set<AmbienteEntity> ambientes = new LinkedHashSet<>();
+    private String apelido;
+
+    private Set<AmbienteEntity> ambienteEntities = new LinkedHashSet<>();
+
+    @Column(name = COLUMN_APELIDO_NAME, nullable = false, unique = true, length = 45)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    public String getApelido() {
+        return apelido;
+    }
+
+    public ImovelEntity setApelido(String apelido) {
+        this.apelido = apelido;
+        return this;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,6 +73,8 @@ public class ImovelEntity {
         return this;
     }
 
+    @Size(max = 45)
+    @NotNull
     @Column(name = COLUMN_CEP_NAME, nullable = false, length = 45)
     public String getCep() {
         return cep;
@@ -63,6 +85,8 @@ public class ImovelEntity {
         return this;
     }
 
+    @Size(max = 45)
+    @NotNull
     @Column(name = COLUMN_LOGRADOURO_NAME, nullable = false, length = 45)
     public String getLogradouro() {
         return logradouro;
@@ -73,6 +97,7 @@ public class ImovelEntity {
         return this;
     }
 
+    @NotNull
     @Column(name = COLUMN_NUMERO_NAME, nullable = false)
     public Integer getNumero() {
         return numero;
@@ -83,6 +108,7 @@ public class ImovelEntity {
         return this;
     }
 
+    @Size(max = 45)
     @Column(name = COLUMN_COMPLEMENTO_NAME, length = 45)
     public String getComplemento() {
         return complemento;
@@ -93,6 +119,8 @@ public class ImovelEntity {
         return this;
     }
 
+    @Size(max = 45)
+    @NotNull
     @Column(name = COLUMN_BAIRRO_NAME, nullable = false, length = 45)
     public String getBairro() {
         return bairro;
@@ -103,6 +131,8 @@ public class ImovelEntity {
         return this;
     }
 
+    @Size(max = 45)
+    @NotNull
     @Column(name = COLUMN_CIDADE_NAME, nullable = false, length = 45)
     public String getCidade() {
         return cidade;
@@ -113,6 +143,8 @@ public class ImovelEntity {
         return this;
     }
 
+    @Size(max = 45)
+    @NotNull
     @Column(name = COLUMN_ESTADO_NAME, nullable = false, length = 45)
     public String getEstado() {
         return estado;
@@ -123,6 +155,8 @@ public class ImovelEntity {
         return this;
     }
 
+    @Size(max = 45)
+    @NotNull
     @Column(name = COLUMN_PAIS_NAME, nullable = false, length = 45)
     public String getPais() {
         return pais;
@@ -135,12 +169,28 @@ public class ImovelEntity {
 
     @OneToMany(mappedBy = "idImovel")
     public Set<AmbienteEntity> getAmbientes() {
-        return ambientes;
+        return ambienteEntities;
     }
 
-    public ImovelEntity setAmbientes(Set<AmbienteEntity> ambientes) {
-        this.ambientes = ambientes;
+    public ImovelEntity setAmbientes(Set<AmbienteEntity> ambienteEntities) {
+        this.ambienteEntities = ambienteEntities;
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "ImovelEntity{" +
+                "id=" + id +
+                ", cep='" + cep + '\'' +
+                ", logradouro='" + logradouro + '\'' +
+                ", numero=" + numero +
+                ", complemento='" + complemento + '\'' +
+                ", bairro='" + bairro + '\'' +
+                ", cidade='" + cidade + '\'' +
+                ", estado='" + estado + '\'' +
+                ", pais='" + pais + '\'' +
+                ", apelido='" + apelido + '\'' +
+                ", ambienteEntities=" + ambienteEntities +
+                '}';
+    }
 }
